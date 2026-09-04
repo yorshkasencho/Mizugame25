@@ -1,67 +1,59 @@
 #include <zephyr/dt-bindings/gpio/gpio.h>
-#include <dt-bindings/zmk/matrix_transform.h>
 
 / {
   chosen {
     zmk,kscan = &kscan0;
-    zmk,matrix-transform = &default_transform;
   };
 
   /*
-   * Mizugame25 key matrix (4 rows x 5 columns)
+   * Mizugame25
    *
    * ROW0: SW1    SW2    SW3    SW4    SW5
    * ROW1: SW6    SW7    SW8    SW9    SW10
    * ROW2: SW11   SW12   SW13   SW14   RE1
    * ROW3: ADSW1  ADSW2  ADSW3  ADSW4  ADSW5
    *
-   * XIAO nRF52840 GPIO mapping:
-   * ROW0=D6, ROW1=D3, ROW2=D4, ROW3=D5
-   * COL0=D0, COL1=D1, COL2=D2, COL3=D9, COL4=D10
-   * ENC_A=D8, ENC_B=D7
+   * GPIO:
+   * ROW0 = D6
+   * ROW1 = D3
+   * ROW2 = D4
+   * ROW3 = D5
+   *
+   * COL0 = D0
+   * COL1 = D1
+   * COL2 = D2
+   * COL3 = D9
+   * COL4 = D10
+   *
+   * ENC_A = D8
+   * ENC_B = D7
    */
 
   kscan0: kscan0 {
     compatible = "zmk,kscan-gpio-matrix";
-    diode-direction = "col2row";
+    diode-direction = "row2col";
     wakeup-source;
 
-    col-gpios =
-      <&xiao_d 0 GPIO_ACTIVE_HIGH>,
-      <&xiao_d 1 GPIO_ACTIVE_HIGH>,
-      <&xiao_d 2 GPIO_ACTIVE_HIGH>,
-      <&xiao_d 9 GPIO_ACTIVE_HIGH>,
-      <&xiao_d 10 GPIO_ACTIVE_HIGH>;
-
+    /* row2col: ROW側を出力 */
     row-gpios =
-      <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-      <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-      <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-      <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-  };
+      <&xiao_d 6 GPIO_ACTIVE_HIGH>,  /* ROW0 */
+      <&xiao_d 3 GPIO_ACTIVE_HIGH>,  /* ROW1 */
+      <&xiao_d 4 GPIO_ACTIVE_HIGH>,  /* ROW2 */
+      <&xiao_d 5 GPIO_ACTIVE_HIGH>;  /* ROW3 */
 
-  default_transform: keymap_transform_0 {
-    compatible = "zmk,matrix-transform";
-    rows = <4>;
-    columns = <5>;
-
-    map = <
-      RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)
-      RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4)
-      RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4)
-      RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
-    >;
+    /* row2col: COL側を入力 */
+    col-gpios =
+      <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL0 */
+      <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL1 */
+      <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL2 */
+      <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL3 */
+      <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* COL4 */
   };
 
   encoder0: encoder0 {
     compatible = "alps,ec11";
-
-    a-gpios =
-      <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-
-    b-gpios =
-      <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-
+    a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     steps = <96>;
     status = "okay";
   };
