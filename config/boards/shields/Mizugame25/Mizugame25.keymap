@@ -1,44 +1,42 @@
 /*
- * Mizugame25 - first working keymap
+ * Mizugame25 - MATRIX DIAGNOSTIC KEYMAP
  *
- * Physical layout / key positions:
+ * SW1    SW2    SW3    SW4    SW5
+ *  A      B      C      D      E
  *
- *   0 SW1    1 SW2    2 SW3    3 SW4    4 SW5
- *   5 SW6    6 SW7    7 SW8    8 SW9    9 SW10
- *  10 SW11  11 SW12  12 SW13  13 SW14  14 RE1
- *  15 ADSW1 16 ADSW2 17 ADSW3 18 ADSW4 19 ADSW5
+ * SW6    SW7    SW8    SW9    SW10
+ *  F      G      H      I      J
  *
- * This first version intentionally contains only the base drawing layout.
- * Combos and additional layers will be added after the basic hardware test.
+ * SW11   SW12   SW13   SW14   RE1
+ *  K      L      M      N      O
+ *
+ * ADSW1  ADSW2  ADSW3  ADSW4  ADSW5
+ *  P      Q      R      S      T
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
 / {
-  keymap {
-    compatible = "zmk,keymap";
+    keymap {
+        compatible = "zmk,keymap";
 
-    default_layer {
-      bindings = <
-        /* SW1 - SW5 */
-        &kp K              &kp G                 &kp J        &kp F             &kp P
+        default_layer {
+            bindings = <
+                /* SW1 - SW5 */
+                &kp A    &kp B    &kp C    &kp D    &kp E
 
-        /* SW6 - SW10: direct key-down on press, key-up on release */
-        &kp LSHIFT         &kp LGUI              &kp LALT     &kp SPACE         &kp I
+                /* SW6 - SW10 */
+                &kp F    &kp G    &kp H    &kp I    &kp J
 
-        /* SW11 - SW14 + encoder push RE1 */
-        &kp X              &kp U                 &kp O        &kp Q             &kp Z
+                /* SW11 - SW14 + RE1 */
+                &kp K    &kp L    &kp M    &kp N    &kp O
 
-        /* ADSW1 - ADSW5 */
-        &kp LA(DEL)        &kp LC(LS(TAB))       &kp TAB      &kp LC(TAB)       &kp DEL
-      >;
+                /* ADSW1 - ADSW5 */
+                &kp P    &kp Q    &kp R    &kp S    &kp T
+            >;
 
-      /* Clockwise = ], counter-clockwise = [.
-       * If the physical direction is reversed on the first test,
-       * swap RBKT and LBKT here.
-       */
-      sensor-bindings = <&inc_dec_kp RBKT LBKT>;
+            sensor-bindings = <&inc_dec_kp RBKT LBKT>;
+        };
     };
-  };
 };
