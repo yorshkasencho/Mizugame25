@@ -1,5 +1,16 @@
-# HoshinoUtsuro
+# Mizugame25
 
-- 30 keys working
-- encoder working on NFC pins
-- baseline stable
+ZMK firmware for the Mizugame25 macro pad.
+
+Hardware baseline:
+- Seeed Studio XIAO nRF52840
+- 4 x 5 key matrix (20 key positions)
+- EC12/EC11-compatible rotary encoder with push switch
+- Five side tactile switches
+
+Current firmware stage:
+- Basic drawing keymap
+- Direct Shift / GUI / Alt / Space hold behavior
+- Side-key shortcuts
+- Encoder mapped to [ and ]
+- Combos and additional layers to be added later

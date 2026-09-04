@@ -1,0 +1,69 @@
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+  chosen {
+    zmk,kscan = &kscan0;
+  };
+
+  /*
+   * Mizugame25 key matrix (4 rows x 5 columns)
+   *
+   * ROW0: SW1    SW2    SW3    SW4    SW5
+   * ROW1: SW6    SW7    SW8    SW9    SW10
+   * ROW2: SW11   SW12   SW13   SW14   RE1
+   * ROW3: ADSW1  ADSW2  ADSW3  ADSW4  ADSW5
+   *
+   * Schematic GPIO mapping:
+   * ROW0=D6, ROW1=D3, ROW2=D4, ROW3=D5
+   * COL0=D0, COL1=D1, COL2=D2, COL3=D9, COL4=D10
+   * ENC_A=D8, ENC_B=D7
+   *
+   * Diode orientation in the schematic:
+   * anode = ROW side, cathode = COL side -> row2col
+   */
+  kscan0: kscan0 {
+    compatible = "zmk,kscan-gpio-matrix";
+    diode-direction = "row2col";
+    wakeup-source;
+
+    /* Outputs: rows */
+    row-gpios =
+      <&xiao_d 6 GPIO_ACTIVE_HIGH>,  /* ROW0 : D6 */
+      <&xiao_d 3 GPIO_ACTIVE_HIGH>,  /* ROW1 : D3 */
+      <&xiao_d 4 GPIO_ACTIVE_HIGH>,  /* ROW2 : D4 */
+      <&xiao_d 5 GPIO_ACTIVE_HIGH>;  /* ROW3 : D5 */
+
+    /* Inputs: columns */
+    col-gpios =
+      <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL0 : D0  */
+      <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL1 : D1  */
+      <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL2 : D2  */
+      <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* COL3 : D9  */
+      <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* COL4 : D10 */
+  };
+
+  encoder0: encoder0 {
+    compatible = "alps,ec11";
+    a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* ENC_A : D8 */
+    b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* ENC_B : D7 */
+    steps = <96>;
+    status = "okay";
+  };
+
+  sensors: sensors {
+    compatible = "zmk,keymap-sensors";
+    sensors = <&encoder0>;
+    triggers-per-rotation = <24>;
+  };
+
+  behaviors {
+    bat_led: battery_led {
+      compatible = "zmk,behavior-battery-led";
+      #binding-cells = <1>;
+    };
+  };
+};
+
+&xiao_serial {
+  status = "disabled";
+};
