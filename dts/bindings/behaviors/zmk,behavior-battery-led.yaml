@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: MIT
+
+description: Battery LED Behavior
+compatible: "zmk,behavior-battery-led"
+include: one_param.yaml

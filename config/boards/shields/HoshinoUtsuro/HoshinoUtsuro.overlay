@@ -1,0 +1,55 @@
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+  chosen {
+    zmk,kscan = &kscan0;
+  };
+
+  kscan0: kscan0 {
+    compatible = "zmk,kscan-gpio-matrix";
+    diode-direction = "col2row";
+    wakeup-source;
+
+    /* 5 columns */
+    col-gpios =
+      <&xiao_d 9 GPIO_ACTIVE_HIGH>,   /* COL0 : D9 */
+      <&xiao_d 2 GPIO_ACTIVE_HIGH>,   /* COL1 : D2 */
+      <&xiao_d 3 GPIO_ACTIVE_HIGH>,   /* COL2 : D3 */
+      <&xiao_d 5 GPIO_ACTIVE_HIGH>,   /* COL3 : D5 */
+      <&xiao_d 4 GPIO_ACTIVE_HIGH>;   /* COL4 : D4 */
+
+    /* 6 rows */
+    row-gpios =
+      <&xiao_d 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>, /* ROW0 : D7  */
+      <&xiao_d 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>, /* ROW1 : D8  */
+      <&xiao_d 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>, /* ROW2 : D0  */
+      <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>, /* ROW3 : D10 */
+      <&xiao_d 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>, /* ROW4 : D6  */
+      <&xiao_d 1  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* ROW5 : D1  */
+  };
+
+  encoder0: encoder0 {
+    compatible = "alps,ec11";
+    a-gpios = <&gpio0 9 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+    b-gpios = <&gpio0 10 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+    steps = <96>;
+    status = "okay";
+  };
+
+  sensors: sensors {
+    compatible = "zmk,keymap-sensors";
+    sensors = <&encoder0>;
+    triggers-per-rotation = <24>;
+  };
+
+    behaviors {
+    bat_led: battery_led {
+      compatible = "zmk,behavior-battery-led";
+      #binding-cells = <1>;
+    };
+  };
+};
+
+&xiao_serial {
+  status = "disabled";
+};
