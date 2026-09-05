@@ -1,17 +1,14 @@
 /*
- * Mizugame25 - MATRIX DIAGNOSTIC KEYMAP
+ * Mizugame25 - base keymap
  *
- * SW1    SW2    SW3    SW4    SW5
- *  A      B      C      D      E
+ * Physical layout:
  *
- * SW6    SW7    SW8    SW9    SW10
- *  F      G      H      I      J
+ *   SW1    SW2    SW3    SW4    SW5
+ *   SW6    SW7    SW8    SW9    SW10
+ *   SW11   SW12   SW13   SW14   RE1
+ *   ADSW1  ADSW2  ADSW3  ADSW4  ADSW5
  *
- * SW11   SW12   SW13   SW14   RE1
- *  K      L      M      N      O
- *
- * ADSW1  ADSW2  ADSW3  ADSW4  ADSW5
- *  P      Q      R      S      T
+ * Combos and additional layers are intentionally not included yet.
  */
 
 #include <behaviors.dtsi>
@@ -24,18 +21,39 @@
         default_layer {
             bindings = <
                 /* SW1 - SW5 */
-                &kp A    &kp B    &kp C    &kp D    &kp E
+                &kp K
+                &kp G
+                &kp J
+                &kp F
+                &kp P
 
                 /* SW6 - SW10 */
-                &kp F    &kp G    &kp H    &kp I    &kp J
+                &kp LSHIFT
+                &kp LGUI
+                &kp LALT
+                &kp SPACE
+                &kp I
 
                 /* SW11 - SW14 + RE1 */
-                &kp K    &kp L    &kp M    &kp N    &kp O
+                &kp X
+                &kp U
+                &kp O
+                &kp Q
+                &kp Z
 
                 /* ADSW1 - ADSW5 */
-                &kp P    &kp Q    &kp R    &kp S    &kp T
+                &kp LS(TAB)
+                &kp TAB
+                &kp TAB
+                &kp TAB
+                &kp LC(LS(TAB))
             >;
 
+            /*
+             * Encoder:
+             * clockwise = ]
+             * counter-clockwise = [
+             */
             sensor-bindings = <&inc_dec_kp RBKT LBKT>;
         };
     };
