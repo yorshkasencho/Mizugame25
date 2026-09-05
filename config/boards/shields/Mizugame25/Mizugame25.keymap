@@ -12,6 +12,20 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+/*
+ * SW11:
+ * tap  = X
+ * hold = Layer 1
+ *
+ * hold-preferred にして、
+ * SW11を押しながら別キーを押したとき
+ * レイヤー側を優先する。
+ */
+&lt {
+    flavor = "hold-preferred";
+    tapping-term-ms = <200>;
+};
+
 / {
     combos {
         compatible = "zmk,combos";
@@ -20,6 +34,7 @@
         combo_sw1_sw2 {
             timeout-ms = <50>;
             key-positions = <0 1>;
+            layers = <0>;
             bindings = <&kp ESC>;
         };
 
@@ -27,6 +42,7 @@
         combo_sw2_sw3 {
             timeout-ms = <50>;
             key-positions = <1 2>;
+            layers = <0>;
             bindings = <&kp TAB>;
         };
 
@@ -34,13 +50,15 @@
         combo_sw3_sw4 {
             timeout-ms = <50>;
             key-positions = <2 3>;
+            layers = <0>;
             bindings = <&kp ENTER>;
         };
 
-        /* SW2 + SW3 + SW4 = Battery level check */
+        /* SW2 + SW3 + SW4 = Battery check */
         combo_battery_check {
             timeout-ms = <50>;
             key-positions = <1 2 3>;
+            layers = <0>;
             bindings = <&bat_led 0>;
         };
 
@@ -48,6 +66,7 @@
         combo_sw11_sw12 {
             timeout-ms = <50>;
             key-positions = <10 11>;
+            layers = <0>;
             bindings = <&kp B>;
         };
 
@@ -55,6 +74,7 @@
         combo_sw13_sw14 {
             timeout-ms = <50>;
             key-positions = <12 13>;
+            layers = <0>;
             bindings = <&kp C>;
         };
     };
@@ -62,6 +82,9 @@
     keymap {
         compatible = "zmk,keymap";
 
+        /* =========================================================
+         * Layer 0 : Default
+         * ========================================================= */
         default_layer {
             bindings = <
                 /* SW1 - SW5 */
@@ -79,7 +102,7 @@
                 &kp I
 
                 /* SW11 - SW14 + RE1 */
-                &kp X
+                &lt 1 X
                 &kp O
                 &kp U
                 &kp Q
@@ -94,11 +117,62 @@
             >;
 
             /*
-             * Encoder:
-             * clockwise = ]
+             * 通常レイヤー
+             * clockwise        = ]
              * counter-clockwise = [
              */
             sensor-bindings = <&inc_dec_kp RBKT LBKT>;
+        };
+
+        /* =========================================================
+         * Layer 1 : SW11 Hold
+         *
+         * SW1 = Delete
+         * SW3 = Up
+         * SW7 = Left
+         * SW8 = Down
+         * SW9 = Right
+         * RE1 = Mute
+         *
+         * 他は無効
+         * ========================================================= */
+        sw11_layer {
+            bindings = <
+                /* SW1 - SW5 */
+                &kp DEL
+                &none
+                &kp UP
+                &none
+                &none
+
+                /* SW6 - SW10 */
+                &none
+                &kp LEFT
+                &kp DOWN
+                &kp RIGHT
+                &none
+
+                /* SW11 - SW14 + RE1 */
+                &trans
+                &none
+                &none
+                &none
+                &kp C_MUTE
+
+                /* ADSW1 - ADSW5 */
+                &none
+                &none
+                &none
+                &none
+                &none
+            >;
+
+            /*
+             * Layer 1 encoder:
+             * clockwise         = Volume Up
+             * counter-clockwise = Volume Down
+             */
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };
