@@ -1,5 +1,5 @@
 /*
- * Mizugame25 - base keymap
+ * Mizugame25
  *
  * Physical layout:
  *
@@ -7,14 +7,51 @@
  *   SW6    SW7    SW8    SW9    SW10
  *   SW11   SW12   SW13   SW14   RE1
  *   ADSW1  ADSW2  ADSW3  ADSW4  ADSW5
- *
- * Combos and additional layers are intentionally not included yet.
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    combos {
+        compatible = "zmk,combos";
+
+        /* SW1 + SW2 = Esc */
+        combo_sw1_sw2 {
+            timeout-ms = <50>;
+            key-positions = <0 1>;
+            bindings = <&kp ESC>;
+        };
+
+        /* SW2 + SW3 = Tab */
+        combo_sw2_sw3 {
+            timeout-ms = <50>;
+            key-positions = <1 2>;
+            bindings = <&kp TAB>;
+        };
+
+        /* SW3 + SW4 = Enter */
+        combo_sw3_sw4 {
+            timeout-ms = <50>;
+            key-positions = <2 3>;
+            bindings = <&kp ENTER>;
+        };
+
+        /* SW11 + SW12 = B */
+        combo_sw11_sw12 {
+            timeout-ms = <50>;
+            key-positions = <10 11>;
+            bindings = <&kp B>;
+        };
+
+        /* SW13 + SW14 = C */
+        combo_sw13_sw14 {
+            timeout-ms = <50>;
+            key-positions = <12 13>;
+            bindings = <&kp C>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
