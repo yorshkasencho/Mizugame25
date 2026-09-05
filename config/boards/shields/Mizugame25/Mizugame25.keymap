@@ -37,6 +37,13 @@
             bindings = <&kp ENTER>;
         };
 
+        /* SW2 + SW3 + SW4 = Battery level check */
+        combo_battery_check {
+            timeout-ms = <50>;
+            key-positions = <1 2 3>;
+            bindings = <&bat_led 0>;
+        };
+
         /* SW11 + SW12 = B */
         combo_sw11_sw12 {
             timeout-ms = <50>;
@@ -73,8 +80,8 @@
 
                 /* SW11 - SW14 + RE1 */
                 &kp X
-                &kp U
                 &kp O
+                &kp U
                 &kp Q
                 &kp Z
 
