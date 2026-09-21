@@ -54,6 +54,14 @@
             bindings = <&kp ENTER>;
         };
 
+        /* SW2 + SW4 = Ctrl + Tab */
+        combo_sw2_sw4 {
+            timeout-ms = <50>;
+            key-positions = <1 3>;
+            layers = <0>;
+            bindings = <&kp LC(TAB)>;
+        };
+
         /* SW2 + SW3 + SW4 = Battery check */
         combo_battery_check {
             timeout-ms = <50>;
@@ -118,7 +126,7 @@
 
             /*
              * 通常レイヤー
-             * clockwise        = ]
+             * clockwise         = ]
              * counter-clockwise = [
              */
             sensor-bindings = <&inc_dec_kp RBKT LBKT>;
