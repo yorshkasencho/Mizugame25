@@ -1,3 +1,4 @@
+
 /*
  * Mizugame25
  *
@@ -85,6 +86,14 @@
             layers = <0>;
             bindings = <&kp C>;
         };
+
+        /* SW12 + SW13 + SW14 = Battery check */
+        combo_sw12_sw13_sw14_battery_check {
+            timeout-ms = <50>;
+            key-positions = <11 12 13>;
+            layers = <0>;
+            bindings = <&bat_led 0>;
+        };
     };
 
     keymap {
@@ -135,12 +144,16 @@
         /* =========================================================
          * Layer 1 : SW11 Hold
          *
-         * SW1 = Delete
-         * SW3 = Up
-         * SW7 = Left
-         * SW8 = Down
-         * SW9 = Right
-         * RE1 = Mute
+         * SW1  = Delete
+         * SW2  = Ctrl + Tab
+         * SW3  = Up
+         * SW4  = Ctrl + Shift + Tab
+         * SW7  = Left
+         * SW8  = Down
+         * SW9  = Right
+         * SW12 = Alt + Shift + GUI + I
+         * SW14 = Alt + Shift + GUI + P
+         * RE1  = Mute
          *
          * 他は無効
          * ========================================================= */
@@ -148,9 +161,9 @@
             bindings = <
                 /* SW1 - SW5 */
                 &kp DEL
-                &none
+                &kp LC(TAB)
                 &kp UP
-                &none
+                &kp LC(LS(TAB))
                 &none
 
                 /* SW6 - SW10 */
@@ -162,9 +175,9 @@
 
                 /* SW11 - SW14 + RE1 */
                 &trans
+                &kp LA(LS(LG(I)))
                 &none
-                &none
-                &none
+                &kp LA(LS(LG(P)))
                 &kp C_MUTE
 
                 /* ADSW1 - ADSW5 */
